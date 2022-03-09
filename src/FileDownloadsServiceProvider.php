@@ -33,6 +33,11 @@ class FileDownloadsServiceProvider extends ServiceProvider
 
         LitstackRoute::post('/file-downloads', FileDownloadsController::class.'@upload')
             ->name('lit-file-upload');
+        LitstackRoute::post('/file-downloads/{file}', FileDownloadsController::class.'@updateFile')
+            ->name('lit-file-upload.update');
+        LitstackRoute::delete('/file-downloads/{file}', FileDownloadsController::class.'@destroy')
+            ->name('lit-file-upload.delete');
+
         LitstackRoute::get('/file-downloads', FileDownloadsController::class)->name('file-downloads');
 
         $this->publishes([

@@ -1,57 +1,49 @@
 <template>
     <div class="w-100 pr-2 pl-2">
-        <div
-            v-cloak
-            @drop.prevent="addFile"
-            @dragover.prevent="active = true"
-            @dragleave.prevent="active = false"
-            class="file-download-dropzone mb-4"
-            :class="{'active': active}"
+        <DropArea
+            class="mb-4"
+            @drop="addFile"
         >
-            <div class="file-download-dropzone-icon">
-                <h2 >
-                    <template v-if="!busy">
-                        Drop Files here
-                    </template>
-                    <template v-if="busy">
-                        Uploading
-                    </template>
-                </h2>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" fill="currentColor"><path d="M8 6.641l1.121-1.12a1 1 0 0 1 1.415 1.413L7.707 9.763a.997.997 0 0 1-1.414 0L3.464 6.934A1 1 0 1 1 4.88 5.52L6 6.641V1a1 1 0 1 1 2 0v5.641zM1 12h12a1 1 0 0 1 0 2H1a1 1 0 0 1 0-2z"></path></svg>
+            Drop Files here
+        </DropArea>
+            
+        <b-card class="lit-index-table">
+            <div class="table-responsive">
+                <table class="table b-table table-striped table-hover table-borderless">
+                    <tbody>
+                        <FileDownload
+                            v-for="file, n  in files"
+                            :file="file"
+                            :key="n"
+                        />
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div v-for="file in files" >
-            {{ file.filename }}
-        </div>
+        </b-card>
     </div>
 </template>
 
 <script>
 import axios from "axios";
-
-
+import FileDownload from './FileDownload.vue'
+import DropArea from "./DropArea.vue";
 
 export default {
     name: 'Files',
+    components: {
+        FileDownload,
+        DropArea
+    },
     props: {
         files: {
             type: Array,
             default: null
         }
     },
-    data(){
-        return {
-            active: false,
-            busy: false
-          }
-    },
+    
     methods: {
-        async addFile(event){
-            this.active = false
-            let files = event.dataTransfer.files;
-            // let files = event.target.files;
-
-            
+        async addFile(files){
+            this.active = false            
             this.busy = true
             for (const n in files) {
                 if (Object.hasOwnProperty.call(files, n)) {
@@ -60,7 +52,7 @@ export default {
                 }
             }
             this.busy = false
-            window.location.reload
+            window.location.reload()
         },
         submit(file){
             let formData = new FormData()
@@ -70,30 +62,3 @@ export default {
     }
 };
 </script>
-<style>
-.file-download-dropzone{
-    position: relative;
-    width: 100%;
-    min-height: 150px;
-    outline: 5px dashed #9c9da5;
-    padding: 20px;
-    background: #ccd7e1;
-    border-radius: 10px;
-    padding-bottom: 30px;
-}
-.file-download-dropzone.active{
-    
-    background: #9c9da5;
-}
-.file-download-dropzone-icon{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    opacity: .5;
-}
-.file-download-dropzone-icon svg{
-    width: 80px;
-    height: 80px;
-}
-</style>

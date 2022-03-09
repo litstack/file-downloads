@@ -18,13 +18,29 @@ trait IsFile
         );
     }
 
-    public static function newFromUploadedFile(UploadedFile $file, array $attributes = [])
+    public static function newFromUploadedFile(UploadedFile $file)
     {
         $filepath = Str::uuid();
 
         self::storeFileOnDisk($file, $filepath);
 
         $model = new static([
+            'filepath' => $filepath,
+            'filename' => $file->getClientOriginalName(),
+            'mimetype' => $file->getClientMimeType(),
+            'size'     => $file->getSize(),
+        ]);
+
+        return $model;
+    }
+    
+    public function updateFromUploadedFile(UploadedFile $file)
+    {
+        $filepath = Str::uuid();
+
+        self::storeFileOnDisk($file, $filepath);
+
+        $model = $this->update([
             'filepath' => $filepath,
             'filename' => $file->getClientOriginalName(),
             'mimetype' => $file->getClientMimeType(),

@@ -25,4 +25,18 @@ class FileDownloadsController
 
         return $file;
     }
+    
+    public function updateFile(Request $request, FileDownload $file)
+    {
+        $file = $file->updateFromUploadedFile($request->file);
+
+        return $file;
+    }
+    
+    public function destroy(Request $request, FileDownload $file)
+    {
+        $file->delete();
+
+        return;
+    }
 }

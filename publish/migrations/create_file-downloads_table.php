@@ -25,6 +25,7 @@ class CreateFileDownloadsTable extends Migration
             $table->json('meta')->nullable();
             $table->timestamps();
             $table->unique(['disk', 'filepath']);
+            $table->softDeletes();
         });
     }
 
