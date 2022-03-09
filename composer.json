@@ -1,0 +1,38 @@
+{
+    "name": "litstack/file-downloads",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jannescb",
+            "email": "jannes@aw-studio.de"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ignite\\FileDownloads\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.19",
+        "mockery/mockery": "^1.4"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ignite\\FileDownloads\\FileDownloadsServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
