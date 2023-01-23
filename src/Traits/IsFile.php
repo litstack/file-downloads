@@ -36,7 +36,8 @@ trait IsFile
 
     public function updateFromUploadedFile(UploadedFile $file)
     {
-        $filepath = Str::uuid();
+        $filepath = $this->filepath;
+        $this->removeFileFromDisk();
 
         self::storeFileOnDisk($file, $filepath);
 
