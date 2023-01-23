@@ -9,7 +9,7 @@ class FileDownloadsController
 {
     public function __invoke()
     {
-        $page = new Page;
+        $page = new Page();
         $page->component('files');
 
         $page->bind([
@@ -25,16 +25,17 @@ class FileDownloadsController
 
         return $file;
     }
-    
+
     public function updateFile(Request $request, FileDownload $file)
     {
         $file = $file->updateFromUploadedFile($request->file);
 
         return $file;
     }
-    
+
     public function destroy(Request $request, FileDownload $file)
     {
+        $file->removeFileFromDisk();
         $file->delete();
 
         return;
