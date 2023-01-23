@@ -33,10 +33,11 @@ trait IsFile
 
         return $model;
     }
-    
+
     public function updateFromUploadedFile(UploadedFile $file)
     {
-        $filepath = Str::uuid();
+        $filepath = $this->filepath;
+        $this->removeFileFromDisk();
 
         self::storeFileOnDisk($file, $filepath);
 
@@ -65,5 +66,14 @@ trait IsFile
     public static function storage(): FilesystemAdapter
     {
         return Storage::disk('public');
+    }
+
+    /**
+     * Delete file from disk.
+     *
+     */
+    public function removeFileFromDisk()
+    {
+        self::storage()->deleteDirectory($this->filepath);
     }
 }
